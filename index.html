@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0d0f" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/bread-180.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/bread-32.png" />
+  <title>LM ↔ Hefe – Umrechner</title>
+  <style>
+    :root{--bg:#0b0d0f;--card:#121419;--muted:#9aa4b2;--fg:#eef2f6;--accent:#4ea1ff;--ok:#39d353;--warn:#ffb86b}
+    @media (prefers-color-scheme: light){:root{--bg:#ffffff;--card:#f6f8fa;--muted:#57606a;--fg:#0f1720;--accent:#0969da}}
+    html,body{background:var(--bg);color:var(--fg);margin:0;font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"DejaVu Sans",Arial}
+    .wrap{max-width:900px;margin:0 auto;padding:12px 14px}
+    header{padding:8px 0 2px}
+    h1{font-size:1.15rem;margin:.3rem 0 .2rem;display:flex;align-items:center;gap:.5rem}
+    .badge{width:28px;height:28px;background:url('icons/bread-32.png') no-repeat center/contain;border-radius:8px}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 14px;margin:10px 0}
+    .muted{color:var(--muted)}
+    label{display:block;font-size:.9rem;margin:.35rem 0 .15rem;color:var(--muted)}
+    input[type=number],select{width:100%;padding:.6rem .7rem;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:transparent;color:var(--fg)}
+    input::placeholder{color:#8b949e}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}
+    button{appearance:none;border:0;border-radius:10px;padding:.7rem .9rem;font-weight:700;color:#0b0d0f;background:var(--accent);cursor:pointer}
+    button.secondary{background:#30363d;color:#c9d1d9}
+    .out{border:1px dashed rgba(255,255,255,.18);border-radius:10px;padding:.7rem .8rem;margin-top:.5rem}
+    .kpi{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:.5rem}
+    .box{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:.6rem}
+    .box h3{font-size:.92rem;margin:.1rem 0;color:var(--muted)}
+    .val{font-size:1.2rem;font-weight:800}
+    .hr{height:1px;background:rgba(255,255,255,.12);margin:.6rem 0}
+    .small{font-size:.86rem}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1><span class="badge" aria-hidden="true"></span> Lievito Madre ↔ Hefe – Umrechner</h1>
+      <div class="muted small">LM: 60 % Hydration (≈ 62,5 % Mehl / 37,5 % Wasser). Für iPhone: <em>Teilen → Zum Home-Bildschirm</em>.</div>
+    </header>
+
+    <section class="card">
+      <h2 style="margin:.2rem 0 .6rem;font-size:1.05rem">1) Grunddaten</h2>
+      <div class="grid">
+        <div>
+          <label for="mehl">Gesamt‑Mehlmenge (g)</label>
+          <input id="mehl" type="number" inputmode="decimal" value="1000" min="1" step="1" />
+        </div>
+        <div>
+          <label>LM‑Hydration</label>
+          <input type="text" value="60 % (fix) – 62,5 % Mehl / 37,5 % Wasser" disabled />
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2 style="margin:.2rem 0 .6rem;font-size:1.05rem">2A) Rezept mit Hefe → LM (Garzeit beibehalten)</h2>
+        <div class="grid">
+          <div>
+            <label for="hefeArt">Hefeart</label>
+            <select id="hefeArt"><option value="dry">Trockenhefe</option><option value="fresh">Frischhefe</option></select>
+          </div>
+          <div>
+            <label for="hefeG">Hefemenge (g)</label>
+            <input id="hefeG" type="number" inputmode="decimal" placeholder="z. B. 2" />
+          </div>
+        </div>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+          <button id="btnA">Berechnen</button>
+          <button class="secondary" id="btnResetA">Reset</button>
+        </div>
+        <div id="outA" class="out" style="display:none"></div>
+      </section>
+
+      <section class="card">
+        <h2 style="margin:.2rem 0 .6rem;font-size:1.05rem">2B) LM‑Menge vorgeben → Garzeit & Korrekturen</h2>
+        <div class="grid">
+          <div>
+            <label for="lmG">LM‑Menge (g, 60 % Hydration)</label>
+            <input id="lmG" type="number" inputmode="decimal" placeholder="z. B. 150" />
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <div class="muted small">LM% = LM (g) ÷ Mehl (g) × 100</div>
+          </div>
+        </div>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+          <button id="btnB">Berechnen</button>
+          <button class="secondary" id="btnResetB">Reset</button>
+        </div>
+        <div id="outB" class="out" style="display:none"></div>
+      </section>
+    </div>
+
+    <section class="card">
+      <details>
+        <summary><strong>Methodik & Annahmen</strong> (aufklappen)</summary>
+        <ul class="small">
+          <li>Temperatur: 22–24 °C. Bei kühleren/wärmeren Bedingungen ändert sich die Garzeit.</li>
+          <li>Mittelwerte je Band (Hefe% ↔ LM% ↔ Zeit): (0,90 ↔ 27 ↔ 1 h), (0,70 ↔ 21 ↔ 2 h), (0,50 ↔ 15 ↔ 3 h), (0,35 ↔ 10,5 ↔ 4,5 h), (0,25 ↔ 7,5 ↔ 7 h), (0,15 ↔ 5 ↔ 12 h), (0,08 ↔ 3,5 ↔ 14 h), (0,05 ↔ 2,5 ↔ 21 h).</li>
+          <li>Frischhefe → Trockenhefe = 3:1 (3 g Frischhefe ≈ 1 g Trockenhefe).</li>
+        </ul>
+      </details>
+    </section>
+
+    <footer class="muted small" style="padding:10px 0 16px">Hinweis: Ergebnisse sind Näherungen. Bei sehr fett-/zuckerreichen Teigen oder sehr hoher Hydration ggf. anpassen.</footer>
+  </div>
+
+<script>
+(function(){
+  const $ = (id)=>document.getElementById(id);
+  // Knotenpunkte (Mittelwerte)
+  const knots = { times:[1,2,3,4.5,7,12,14,21], lmPct:[27,21,15,10.5,7.5,5,3.5,2.5], yPct:[0.9,0.7,0.5,0.35,0.25,0.15,0.08,0.05] };
+  function linInterp(x, xs, ys){ if(x<=xs[0])return ys[0]; if(x>=xs[xs.length-1])return ys[ys.length-1]; for(let i=0;i<xs.length-1;i++){const x0=xs[i],x1=xs[i+1]; if(x>=x0&&x<=x1){const t=(x-x0)/(x1-x0); return ys[i]+t*(ys[i+1]-ys[i]);}} return ys[ys.length-1]; }
+  const timeFromLMpct   = (p)=> linInterp(p, [...knots.lmPct].reverse(), [...knots.times].reverse());
+  const timeFromYeastPct= (p)=> linInterp(p, [...knots.yPct].reverse(),    [...knots.times].reverse());
+  const lmPctFromTime   = (t)=> linInterp(t, knots.times, knots.lmPct);
+  const yeastPctFromTime= (t)=> linInterp(t, knots.times, knots.yPct);
+  const fmtPct=(v)=> (Math.round(v*100)/100).toFixed(2).replace('.', ',')+' %';
+  const fmtG=(v)=> (Math.round(v*10)/10).toFixed(1).replace('.', ',')+' g';
+  const fmtH=(v)=> (Math.round(v*10)/10).toFixed(1).replace('.', ',')+' h';
+  function bandTxt(p){ const bands=[{t:'1 h',lm:[24,30],y:[0.8,1.0]},{t:'2 h',lm:[18,24],y:[0.6,0.8]},{t:'3 h',lm:[12,18],y:[0.4,0.6]},{t:'4–5 h',lm:[9,12],y:[0.3,0.4]},{t:'6–8 h',lm:[6,9],y:[0.2,0.3]},{t:'12 h',lm:[4,6],y:[0.1,0.2]},{t:'12–16 h (kühl)',lm:[3,4],y:[0.06,0.1]},{t:'18–24 h (kühl)',lm:[2,3],y:[0.04,0.06]}]; for(const b of bands){ if(p>=b.lm[0]&&p<=b.lm[1]) return b.t; } return p>30? 'unter 1 h' : 'über 24 h'; }
+
+  function outA(){ const mehl=parseFloat($('mehl').value); const hefeArt=$('hefeArt').value; const hefeG=parseFloat($('hefeG').value); const out=$('outA'); if(!(mehl>0)&&!(hefeG>0)){out.style.display='none';return;} const hefeDryG=hefeArt==='fresh'?hefeG/3:hefeG; const yPct=100*hefeDryG/mehl; const timeH=timeFromYeastPct(yPct); const lmPct=lmPctFromTime(timeH); const lmG=mehl*lmPct/100; const abMehl=lmG*0.625, abWasser=lmG*0.375; const yPctCheck=yeastPctFromTime(timeH); const yDry=yPctCheck/100*mehl; const yFresh=yDry*3; out.innerHTML=`<div class="kpi"><div class="box"><h3>Geschätzte Garzeit</h3><div class="val">${fmtH(timeH)} <span class="muted">(${bandTxt(lmPct)})</span></div></div><div class="box"><h3>LM‑Einsatz</h3><div class="val">${fmtG(lmG)} <span class="muted">(${fmtPct(lmPct)})</span></div></div><div class="box"><h3>Weglassen Mehl</h3><div class="val">${fmtG(abMehl)}</div></div><div class="box"><h3>Weglassen Wasser</h3><div class="val">${fmtG(abWasser)}</div></div></div><div class="hr"></div><div class="small muted">Ausgangs‑Hefe: ${hefeArt==='fresh'?'Frischhefe':'Trockenhefe'} → trockenäquivalent ${fmtG(hefeDryG)} (${fmtPct(yPct)}). Gegenrechnung: Trockenhefe ≈ ${fmtG(yDry)} / Frischhefe ≈ ${fmtG(yFresh)}.</div>`; out.style.display='block'; }
+  function outB(){ const mehl=parseFloat($('mehl').value); const lmG=parseFloat($('lmG').value); const out=$('outB'); if(!(mehl>0)&&!(lmG>0)){out.style.display='none';return;} const lmPct=100*lmG/mehl; const timeH=timeFromLMpct(lmPct); const abMehl=lmG*0.625, abWasser=lmG*0.375; const yPct=yeastPctFromTime(timeH); const yDry=yPct/100*mehl; const yFresh=yDry*3; out.innerHTML=`<div class="kpi"><div class="box"><h3>Geschätzte Garzeit</h3><div class="val">${fmtH(timeH)} <span class="muted">(${bandTxt(lmPct)})</span></div></div><div class="box"><h3>LM‑Einsatz</h3><div class="val">${fmtG(lmG)} <span class="muted">(${fmtPct(lmPct)})</span></div></div><div class="box"><h3>Weglassen Mehl</h3><div class="val">${fmtG(abMehl)}</div></div><div class="box"><h3>Weglassen Wasser</h3><div class="val">${fmtG(abWasser)}</div></div></div><div class="hr"></div><div class="small muted">Gegenrechnung: Trockenhefe ≈ ${fmtG(yDry)} (${fmtPct(yPct)}), Frischhefe ≈ ${fmtG(yFresh)}.</div>`; out.style.display='block'; }
+
+  document.getElementById('btnA').addEventListener('click', outA);
+  document.getElementById('btnB').addEventListener('click', outB);
+  document.getElementById('btnResetA').addEventListener('click', ()=>{ $('hefeG').value=''; $('outA').style.display='none'; });
+  document.getElementById('btnResetB').addEventListener('click', ()=>{ $('lmG').value=''; $('outB').style.display='none'; });
+
+  if('serviceWorker' in navigator){ window.addEventListener('load', ()=> navigator.serviceWorker.register('sw.js')); }
+})();
+</script>
+</body>
+</html>
