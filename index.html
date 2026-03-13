@@ -11,32 +11,50 @@
   <style>
     :root{--bg:#0b0d0f;--card:#121419;--muted:#9aa4b2;--fg:#eef2f6;--accent:#4ea1ff;--accent-2:#8b5cf6;--ok:#3ddc97;--warn:#ffb86b;--err:#ff6b6b}
     @media (prefers-color-scheme: light){:root{--bg:#ffffff;--card:#f6f8fa;--muted:#57606a;--fg:#0f1720;--accent:#0969da;--accent-2:#7c3aed}}
-    html,body{background:var(--bg);color:var(--fg);margin:0;font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"DejaVu Sans",Arial}
-    .wrap{max-width:920px;margin:0 auto;padding:calc(env(safe-area-inset-top,0) + 10px) 16px 16px}
-    header{display:flex;align-items:center;gap:10px;padding:4px 0 8px}
-    .logo{width:34px;height:34px;border-radius:10px;background:url('icons/bread-32.png') center/cover no-repeat;box-shadow:0 0 0 1px rgba(255,255,255,.08)}
-    h1{font-size:1.15rem;margin:0}
+    html,body{background:var(--bg);color:var(--fg);margin:0;font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"DejaVu Sans",Arial;-webkit-text-size-adjust:100%}
+    .wrap{max-width:980px;margin:0 auto;padding:calc(env(safe-area-inset-top,0) + 12px) 16px 16px}
+
+    header{display:flex;align-items:center;gap:12px;padding:2px 0 10px}
+    .logo{width:36px;height:36px;border-radius:10px;background:url('icons/bread-32.png') center/cover no-repeat;box-shadow:0 0 0 1px rgba(255,255,255,.08)}
+    h1{font-size:1.18rem;margin:0}
     .muted{color:var(--muted)}
+
     .card{background:var(--card);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:14px;box-shadow:0 6px 20px rgba(0,0,0,.25)}
     label{display:block;font-size:.92rem;margin:.35rem 0 .2rem;color:var(--muted)}
-    input[type=number],select{width:100%;padding:0.7rem 0.8rem;border:1px solid rgba(255,255,255,.18);border-radius:12px;background:transparent;color:var(--fg);font-weight:600}
+
+    input[type=number],select{width:100%;padding:0.78rem 0.85rem;border:1px solid rgba(255,255,255,.18);border-radius:12px;background:transparent;color:var(--fg);font-size:17px;font-weight:600}
     input::placeholder{color:#8b949e}
+
     .grid{display:grid;grid-template-columns:1fr;gap:12px}
     @media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}
-    .tabs{display:flex;gap:8px;margin:10px 0}
-    .tab{flex:1;text-align:center;padding:0.7rem;border-radius:12px;border:1px solid rgba(255,255,255,.18);cursor:pointer}
-    .tab[aria-selected="true"]{background:linear-gradient(180deg, rgba(78,161,255,.25), rgba(78,161,255,.05));border-color:rgba(78,161,255,.5)}
+
+    .seg{display:flex;gap:8px;margin:10px 0}
+    .seg .seg-btn{flex:1;text-align:center;padding:0.78rem;border-radius:12px;border:1px solid rgba(255,255,255,.18);cursor:pointer;user-select:none}
+    .seg .seg-btn[aria-pressed="true"], .seg .seg-btn[aria-selected="true"]{background:linear-gradient(180deg, rgba(78,161,255,.25), rgba(78,161,255,.05));border-color:rgba(78,161,255,.5)}
+
     .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    button{appearance:none;border:0;border-radius:12px;padding:0.75rem 1rem;font-weight:800;color:#0b0d0f;background:var(--accent);cursor:pointer}
+    button{appearance:none;border:0;border-radius:12px;padding:0.78rem 1rem;font-weight:800;color:#0b0d0f;background:var(--accent);cursor:pointer}
     button.secondary{background:#30363d;color:#c9d1d9}
-    .out{border:1px dashed rgba(255,255,255,.18);border-radius:12px;padding:.8rem .9rem;margin-top:.7rem}
+
+    .out{border:1px dashed rgba(255,255,255,.18);border-radius:12px;padding:.85rem .95rem;margin-top:.7rem}
     .kpi{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    @media(min-width:820px){.kpi{grid-template-columns:repeat(4,1fr)}}
     .box{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:.7rem}
     .box h3{font-size:.92rem;margin:.1rem 0;color:var(--muted)}
     .val{font-size:1.25rem;font-weight:900}
-    .hr{height:1px;background:rgba(255,255,255,.12);margin:.6rem 0}
+    .hr{height:1px;background:rgba(255,255,255,.12);margin:.7rem 0}
     .small{font-size:.86rem}
-    .warn{color:var(--warn)}
+
+    /* Slider styles */
+    .slider-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+    input[type=range]{width:100%;height:36px;appearance:none;background:transparent}
+    input[type=range]::-webkit-slider-runnable-track{height:6px;background:#2a3340;border-radius:999px}
+    input[type=range]::-webkit-slider-thumb{appearance:none;width:28px;height:28px;border-radius:50%;margin-top:-11px;background:var(--accent);border:2px solid #0b0d0f}
+    input[type=range]::-moz-range-track{height:6px;background:#2a3340;border-radius:999px}
+    input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--accent);border:2px solid #0b0d0f}
+
+    /* iPhone 16 Plus specific tweaks (wide phones) */
+    @media (min-width:430px) and (max-width:460px){ .wrap{max-width:600px} }
   </style>
 </head>
 <body>
@@ -46,43 +64,63 @@
       <h1>Lievito Madre ↔ Hefe – Umrechner</h1>
     </header>
 
-    <section class="card">
+    <section class="card" aria-label="Eingaben">
       <div class="grid">
         <div>
           <label for="mehl">Gesamt‑Mehlmenge (g)</label>
-          <input id="mehl" type="number" inputmode="decimal" min="1" step="1" value="1000" />
+          <input id="mehl" type="number" inputmode="decimal" min="1" step="1" value="1000" enterkeyhint="done" />
         </div>
         <div>
-          <label>LM‑Hydration</label>
-          <input type="text" value="60 % (fix) – 62,5 % Mehl / 37,5 % Wasser" disabled />
+          <label for="temp">Teig‑Temperatur (°C) – Slider (20–35 °C)</label>
+          <div class="slider-row">
+            <input id="temp" type="range" min="20" max="35" step="1" value="23" />
+            <div id="tempVal" aria-live="polite" style="min-width:68px;text-align:right;font-weight:700">23 °C</div>
+          </div>
         </div>
       </div>
 
-      <div class="tabs" role="tablist" aria-label="Berechnungsmodus">
-        <div class="tab" id="tabA" role="tab" aria-selected="true" tabindex="0">Rezept mit Hefe → LM</div>
-        <div class="tab" id="tabB" role="tab" aria-selected="false" tabindex="-1">LM vorgeben → Garzeit</div>
+      <!-- Q10 control: buttons + info-box -->
+      <div>
+        <label>Temperatur‑Faktor Q10</label>
+        <div class="seg" role="group" aria-label="Q10‑Faktor">
+          <div id="q10Con" class="seg-btn" role="button" aria-pressed="false" tabindex="0" title="Konservativ (trieblangsam)">Konservativ</div>
+          <div id="q10Std" class="seg-btn" role="button" aria-pressed="true" tabindex="0" title="Standard">Standard</div>
+          <div id="q10Agg" class="seg-btn" role="button" aria-pressed="false" tabindex="0" title="Aggressiv (triebstark)">Aggressiv</div>
+        </div>
+        <div class="small muted">Q10 beschreibt, wie stark die <em>Garzeit</em> je +10 °C **fällt** (hier über <code>t = t<sub>23°C</sub> × Q10<sup>(23−T)/10</sup></code>). Richtwerte: Konservativ = 1,7 · Standard = 2,0 · Aggressiv = 2,3.</div>
       </div>
 
+      <!-- Tabs: Berechnungsmodus -->
+      <div class="seg" role="tablist" aria-label="Berechnungsmodus">
+        <div class="seg-btn" id="tabA" role="tab" aria-selected="true" tabindex="0">Rezept mit Hefe → LM</div>
+        <div class="seg-btn" id="tabB" role="tab" aria-selected="false" tabindex="-1">LM vorgeben → Garzeit</div>
+      </div>
+
+      <!-- Panel A -->
       <div id="panelA" role="tabpanel" aria-labelledby="tabA">
         <div class="grid">
           <div>
-            <label for="hefeArt">Hefeart</label>
-            <select id="hefeArt"><option value="dry">Trockenhefe</option><option value="fresh">Frischhefe</option></select>
+            <label>Hefeart</label>
+            <div class="seg" role="group" aria-label="Hefeart">
+              <div id="btnDry" class="seg-btn" role="button" aria-pressed="true" tabindex="0">Trockenhefe</div>
+              <div id="btnFresh" class="seg-btn" role="button" aria-pressed="false" tabindex="-1">Frischhefe</div>
+            </div>
           </div>
           <div>
             <label for="hefeG">Hefemenge (g)</label>
-            <input id="hefeG" type="number" inputmode="decimal" placeholder="z. B. 2" />
+            <input id="hefeG" type="number" inputmode="decimal" placeholder="z. B. 2" enterkeyhint="done" />
           </div>
         </div>
         <div class="actions"><button id="btnA">Berechnen</button><button class="secondary" id="btnResetA">Reset</button><button class="secondary" id="btnCopyA">Kopieren</button></div>
         <div id="outA" class="out" style="display:none"></div>
       </div>
 
+      <!-- Panel B -->
       <div id="panelB" role="tabpanel" aria-labelledby="tabB" hidden>
         <div class="grid">
           <div>
-            <label for="lmG">LM‑Menge (g, 60 % Hydration)</label>
-            <input id="lmG" type="number" inputmode="decimal" placeholder="z. B. 150" />
+            <label for="lmG">LM‑Menge (g, 60 % Hydration)</label>
+            <input id="lmG" type="number" inputmode="decimal" placeholder="z. B. 150" enterkeyhint="done" />
           </div>
           <div>
             <label>&nbsp;</label>
@@ -93,12 +131,34 @@
         <div id="outB" class="out" style="display:none"></div>
       </div>
 
-      <details style="margin-top:10px">
+      <!-- Übernachtgare -->
+      <div style="margin-top:10px">
+        <div class="seg" role="group" aria-label="Übernachtgare">
+          <div id="overnightToggle" class="seg-btn" role="button" aria-pressed="false" tabindex="0">Übernachtgare im Kühlschrank</div>
+        </div>
+        <details id="overnightDetails" style="margin-top:6px" hidden>
+          <summary class="small" style="cursor:pointer">Einstellungen für Übernachtgare (optional)</summary>
+          <div class="grid" style="margin-top:8px">
+            <div>
+              <label for="fridgeT">Kühlschrank‑Temperatur (°C)</label>
+              <input id="fridgeT" type="number" min="0" max="15" step="0.5" value="7" />
+            </div>
+            <div>
+              <label for="fridgeH">Dauer Kühlschrank (h)</label>
+              <input id="fridgeH" type="number" min="4" max="24" step="0.5" value="9" />
+            </div>
+          </div>
+          <div class="small muted">Typisch: 7 °C und 8–10 h. Die **Gesamtdauer** wird um die Kühlschrank‑Zeit ergänzt. Zusätzlich zeigen wir die 23 °C‑Äquivalenz dieser Retarde zur Einordnung.</div>
+        </details>
+      </div>
+
+      <details style="margin-top:12px">
         <summary><strong>Methodik & Annahmen</strong> (aufklappen)</summary>
         <ul class="small">
-          <li>22–24 °C. Bei kühleren/wärmeren Bedingungen ändert sich die Garzeit.</li>
-          <li>Mittelwerte je Band (Hefe% ↔ LM% ↔ Zeit): (0,90 ↔ 27 ↔ 1 h), (0,70 ↔ 21 ↔ 2 h), (0,50 ↔ 15 ↔ 3 h), (0,35 ↔ 10,5 ↔ 4,5 h), (0,25 ↔ 7,5 ↔ 7 h), (0,15 ↔ 5 ↔ 12 h), (0,08 ↔ 3,5 ↔ 14 h), (0,05 ↔ 2,5 ↔ 21 h).</li>
-          <li>Frischhefe → Trockenhefe = 3:1 (3 g Frischhefe ≈ 1 g Trockenhefe).</li>
+          <li><strong>Temperatur‑Basis:</strong> 23 °C. Zeit‑Skalierung über Q10 (Standard 2.0): <code>t = t<sub>23°C</sub> × Q10<sup>(23−T)/10</sup></code>.</li>
+          <li><strong>LM Hydration: 60 %</strong> (≈ 62,5 % Mehl / 37,5 % Wasser) → diese Anteile im Hauptteig abziehen.</li>
+          <li>Mittelwerte je Band (Hefe% ↔ LM% ↔ Zeit): (0,90 ↔ 27 ↔ 1 h), (0,70 ↔ 21 ↔ 2 h), (0,50 ↔ 15 ↔ 3 h), (0,35 ↔ 10,5 ↔ 4,5 h), (0,25 ↔ 7,5 ↔ 7 h), (0,15 ↔ 5 ↔ 12 h), (0,08 ↔ 3,5 ↔ 14 h), (0,05 ↔ 2,5 ↔ 21 h).</li>
+          <li>Frischhefe → Trockenhefe = 3 : 1 (3 g Frischhefe ≈ 1 g Trockenhefe).</li>
         </ul>
       </details>
     </section>
@@ -109,21 +169,74 @@
 <script>
 (function(){
   const $ = (id)=>document.getElementById(id);
-  // Simple state persistence
-  const stateKeys = ['mehl','hefeArt','hefeG','lmG'];
-  stateKeys.forEach(k=>{ const el=$(k); if(el&&localStorage.getItem('lm_'+k)) el.value=localStorage.getItem('lm_'+k); });
-  stateKeys.forEach(k=>{ const el=$(k); if(el) el.addEventListener('input',()=> localStorage.setItem('lm_'+k, el.value)); });
+  const save = (k,v)=> localStorage.setItem('lm_'+k, v);
+  const load = (k)=> localStorage.getItem('lm_'+k);
+
+  // Restore persisted values
+  ['mehl','hefeG','lmG','fridgeT','fridgeH'].forEach(k=>{ const el=$(k); if(el && load(k)) el.value = load(k); });
+  if(load('temp')) $('#temp').value = load('temp');
+  const tempVal = ()=> $('#tempVal').textContent = $('#temp').value + ' °C';
+  tempVal();
+
+  // Q10 segmented control
+  let Q10 = parseFloat(load('Q10')) || 2.0;
+  function setQ10(mode){
+    const map = {con:1.7, std:2.0, agg:2.3};
+    Q10 = map[mode];
+    $('#q10Con').setAttribute('aria-pressed', mode==='con');
+    $('#q10Std').setAttribute('aria-pressed', mode==='std');
+    $('#q10Agg').setAttribute('aria-pressed', mode==='agg');
+    save('Q10', Q10);
+    computeA(); computeB();
+  }
+  $('#q10Con').addEventListener('click', ()=>setQ10('con'));
+  $('#q10Std').addEventListener('click', ()=>setQ10('std'));
+  $('#q10Agg').addEventListener('click', ()=>setQ10('agg'));
+  // init visual state
+  if(Q10===1.7) setQ10('con'); else if(Q10===2.3) setQ10('agg'); else setQ10('std');
 
   // Tabs
-  function activate(tab){
-    const a=$('tabA'), b=$('tabB'), pa=$('panelA'), pb=$('panelB');
-    const isA = tab==='A';
-    a.setAttribute('aria-selected', isA); b.setAttribute('aria-selected', !isA);
-    a.tabIndex = isA?0:-1; b.tabIndex = !isA?0:-1;
-    pa.hidden = !isA; pb.hidden = isA;
+  function activateTab(which){
+    const isA = which==='A';
+    $('#tabA').setAttribute('aria-selected', isA);
+    $('#tabB').setAttribute('aria-selected', !isA);
+    $('#tabA').tabIndex = isA?0:-1; $('#tabB').tabIndex = !isA?0:-1;
+    $('#panelA').hidden = !isA; $('#panelB').hidden = isA;
+    save('tab', which);
   }
-  $('tabA').addEventListener('click',()=>activate('A'));
-  $('tabB').addEventListener('click',()=>activate('B'));
+  $('#tabA').addEventListener('click', ()=>activateTab('A'));
+  $('#tabB').addEventListener('click', ()=>activateTab('B'));
+  activateTab(load('tab')||'A');
+
+  // Yeast segmented
+  function setYeast(art){
+    const isDry = art==='dry';
+    $('#btnDry').setAttribute('aria-pressed', isDry);
+    $('#btnFresh').setAttribute('aria-pressed', !isDry);
+    $('#btnDry').tabIndex = isDry?0:-1; $('#btnFresh').tabIndex = !isDry?0:-1;
+    save('yeastArt', art);
+    computeA();
+  }
+  $('#btnDry').addEventListener('click', ()=>setYeast('dry'));
+  $('#btnFresh').addEventListener('click', ()=>setYeast('fresh'));
+  setYeast(load('yeastArt')||'dry');
+
+  // Overnight toggle
+  let overnight = (load('overnight')==='1');
+  function setOvernight(on){
+    overnight = !!on; save('overnight', on? '1':'0');
+    $('#overnightToggle').setAttribute('aria-pressed', overnight);
+    const det = $('#overnightDetails');
+    if(overnight){ det.hidden = false; det.open = true; }
+    else { det.open = false; det.hidden = true; }
+    computeA(); computeB();
+  }
+  $('#overnightToggle').addEventListener('click', ()=> setOvernight(!overnight));
+  setOvernight(overnight);
+
+  // Inputs persist
+  ['mehl','hefeG','lmG','fridgeT','fridgeH'].forEach(id=>{ const el=$(id); el && el.addEventListener('input', ()=>{ save(id, el.value); computeA(); computeB(); }); });
+  $('#temp').addEventListener('input', ()=>{ save('temp', $('#temp').value); tempVal(); computeA(); computeB(); });
 
   // Interpolation basis
   const knots = { times:[1,2,3,4.5,7,12,14,21], lmPct:[27,21,15,10.5,7.5,5,3.5,2.5], yPct:[0.9,0.7,0.5,0.35,0.25,0.15,0.08,0.05] };
@@ -133,39 +246,85 @@
   const lmPctFromTime   = (t)=> linInterp(t, knots.times, knots.lmPct);
   const yeastPctFromTime= (t)=> linInterp(t, knots.times, knots.yPct);
 
+  // Temp scaling with Q10 at base 23°C
+  const baseT = 23.0;
+  const scaleTime = (t, T)=> t * Math.pow(Q10, (baseT - T)/10.0);
+
   const fmtPct=(v)=> (Math.round(v*100)/100).toFixed(2).replace('.', ',')+' %';
   const fmtG=(v)=> (Math.round(v*10)/10).toFixed(1).replace('.', ',')+' g';
   const fmtH=(v)=> (Math.round(v*10)/10).toFixed(1).replace('.', ',')+' h';
+
   const bandTxt=(p)=>{ const bands=[{t:'1 h',lm:[24,30]},{t:'2 h',lm:[18,24]},{t:'3 h',lm:[12,18]},{t:'4–5 h',lm:[9,12]},{t:'6–8 h',lm:[6,9]},{t:'12 h',lm:[4,6]},{t:'12–16 h (kühl)',lm:[3,4]},{t:'18–24 h (kühl)',lm:[2,3]}]; for(const b of bands){ if(p>=b.lm[0]&&p<=b.lm[1]) return b.t;} return p>30? 'unter 1 h' : 'über 24 h'; }
 
+  function addOvernightSection(htmlStr, time23){
+    if(!overnight) return htmlStr;
+    const Tfr = parseFloat($('#fridgeT').value || '7');
+    const Hfr = parseFloat($('#fridgeH').value || '9');
+    const eq23 = Hfr * Math.pow(Q10, (baseT - Tfr)/10.0);
+    const T = parseFloat($('#temp').value || baseT);
+    // Gesamtdauer = warme Phase (bei T) + tatsächliche Kühlschrankstunden
+    const timeWarmAdj = scaleTime(time23, T);
+    const total = timeWarmAdj + Hfr;
+    return htmlStr + `
+      <div class="hr"></div>
+      <div class="small muted">Übernachtgare: ${Hfr.toFixed(1).replace('.', ',')} h bei ${Tfr.toFixed(1).replace('.', ',')} °C hinzugefügt. 23 °C‑Äquivalenz ≈ ${fmtH(eq23)}. <br>Gesamtdauer inkl. Kühlschrank: <strong>${fmtH(total)}</strong>.</div>
+    `;
+  }
+
   function computeA(){
-    const mehl=parseFloat($('mehl').value); const art=$('hefeArt').value; const g=parseFloat($('hefeG').value); const out=$('outA');
-    if(!(mehl>0) || !(g>0)) { out.style.display='none'; return; }
-    const dry= art==='fresh'? g/3:g; const yPct=100*dry/mehl; const timeH=timeFromYeastPct(yPct); const lmPct=lmPctFromTime(timeH); const lmG=mehl*lmPct/100; const abM=lmG*0.625, abW=lmG*0.375; const yPctCheck=yeastPctFromTime(timeH); const yDry=yPctCheck/100*mehl; const yFresh=yDry*3;
-    out.innerHTML = `<div class="kpi"><div class="box"><h3>Geschätzte Garzeit</h3><div class="val">${fmtH(timeH)} <span class="muted">(${bandTxt(lmPct)})</span></div></div><div class="box"><h3>LM‑Einsatz</h3><div class="val">${fmtG(lmG)} <span class="muted">(${fmtPct(lmPct)})</span></div></div><div class="box"><h3>Weglassen Mehl</h3><div class="val">${fmtG(abM)}</div></div><div class="box"><h3>Weglassen Wasser</h3><div class="val">${fmtG(abW)}</div></div></div><div class="hr"></div><div class="small muted">Ausgangs‑Hefe: ${art==='fresh'?'Frischhefe':'Trockenhefe'} → trockenäquivalent ${fmtG(dry)} (${fmtPct(yPct)}). Gegenrechnung: Trockenhefe ≈ ${fmtG(yDry)} / Frischhefe ≈ ${fmtG(yFresh)}.</div>`;
+    const mehl=parseFloat($('#mehl').value); const hefeG=parseFloat($('#hefeG').value); const art=(load('yeastArt')||'dry'); const out=$('#outA');
+    if(!(mehl>0) || !(hefeG>0)) { out.style.display='none'; return; }
+    const dry = art==='fresh' ? hefeG/3 : hefeG;
+    const yPct = 100*dry/mehl;
+    const time23 = timeFromYeastPct(yPct);
+    const T = parseFloat($('#temp').value || baseT);
+    const lmPct = lmPctFromTime(time23);
+    const lmG = mehl * lmPct/100;
+    const abM = lmG*0.625, abW = lmG*0.375;
+    const yPctCheck = yeastPctFromTime(time23);
+    const yDry = yPctCheck/100*mehl; const yFresh = yDry*3;
+
+    let html = `<div class=\"kpi\">
+      <div class=\"box\"><h3>Garzeit (bei ${T.toFixed(0)} °C)</h3><div class=\"val\">${fmtH(scaleTime(time23, T))} <span class=\"muted\">(Basis 23 °C: ${fmtH(time23)})</span></div></div>
+      <div class=\"box\"><h3>LM‑Einsatz</h3><div class=\"val\">${fmtG(lmG)} <span class=\"muted\">(${fmtPct(lmPct)})</span></div></div>
+      <div class=\"box\"><h3>Weglassen Mehl</h3><div class=\"val\">${fmtG(abM)}</div></div>
+      <div class=\"box\"><h3>Weglassen Wasser</h3><div class=\"val\">${fmtG(abW)}</div></div>
+    </div>
+    <div class=\"hr\"></div>
+    <div class=\"small muted\">Ausgangs‑Hefe: ${art==='fresh'?'Frischhefe':'Trockenhefe'} → trockenäquivalent ${fmtG(dry)} (${fmtPct(yPct)}). Gegenrechnung (23 °C): Trockenhefe ≈ ${fmtG(yDry)} / Frischhefe ≈ ${fmtG(yFresh)}.</div>`;
+
+    html = addOvernightSection(html, time23);
+    out.innerHTML = html;
     out.style.display='block';
   }
+
   function computeB(){
-    const mehl=parseFloat($('mehl').value); const lmG=parseFloat($('lmG').value); const out=$('outB');
+    const mehl=parseFloat($('#mehl').value); const lmG=parseFloat($('#lmG').value); const out=$('#outB');
     if(!(mehl>0) || !(lmG>0)) { out.style.display='none'; return; }
-    const lmPct=100*lmG/mehl; const timeH=timeFromLMpct(lmPct); const abM=lmG*0.625, abW=lmG*0.375; const yPct=yeastPctFromTime(timeH); const yDry=yPct/100*mehl; const yFresh=yDry*3;
-    out.innerHTML = `<div class="kpi"><div class="box"><h3>Geschätzte Garzeit</h3><div class="val">${fmtH(timeH)} <span class="muted">(${bandTxt(lmPct)})</span></div></div><div class="box"><h3>LM‑Einsatz</h3><div class="val">${fmtG(lmG)} <span class="muted">(${fmtPct(lmPct)})</span></div></div><div class="box"><h3>Weglassen Mehl</h3><div class="val">${fmtG(abM)}</div></div><div class="box"><h3>Weglassen Wasser</h3><div class="val">${fmtG(abW)}</div></div></div><div class="hr"></div><div class="small muted">Gegenrechnung: Trockenhefe ≈ ${fmtG(yDry)} (${fmtPct(yPct)}), Frischhefe ≈ ${fmtG(yFresh)}.</div>`;
+    const lmPct=100*lmG/mehl;
+    const time23 = timeFromLMpct(lmPct);
+    const T = parseFloat($('#temp').value || baseT);
+    const abM=lmG*0.625, abW=lmG*0.375;
+    const yPct=yeastPctFromTime(time23); const yDry=yPct/100*mehl; const yFresh=yDry*3;
+
+    let html = `<div class=\"kpi\">
+      <div class=\"box\"><h3>Garzeit (bei ${T.toFixed(0)} °C)</h3><div class=\"val\">${fmtH(scaleTime(time23, T))} <span class=\"muted\">(Basis 23 °C: ${fmtH(time23)})</span></div></div>
+      <div class=\"box\"><h3>LM‑Einsatz</h3><div class=\"val\">${fmtG(lmG)} <span class=\"muted\">(${fmtPct(lmPct)})</span></div></div>
+      <div class=\"box\"><h3>Weglassen Mehl</h3><div class=\"val\">${fmtG(abM)}</div></div>
+      <div class=\"box\"><h3>Weglassen Wasser</h3><div class=\"val\">${fmtG(abW)}</div></div>
+    </div>
+    <div class=\"hr\"></div>
+    <div class=\"small muted\">Gegenrechnung (23 °C): Trockenhefe ≈ ${fmtG(yDry)} (${fmtPct(yPct)}), Frischhefe ≈ ${fmtG(yFresh)}.</div>`;
+
+    html = addOvernightSection(html, time23);
+    out.innerHTML = html;
     out.style.display='block';
   }
 
-  // Live update on input (no click needed) – but keep buttons for iOS keyboard flow
-  ['mehl','hefeG'].forEach(id=>{const el=$(id); el&&el.addEventListener('input', computeA)});
-  ['mehl','lmG'].forEach(id=>{const el=$(id); el&&el.addEventListener('input', computeB)});
-  $('btnA').addEventListener('click', computeA);
-  $('btnB').addEventListener('click', computeB);
+  // Initial compute
+  computeA(); computeB();
 
-  // Reset & Copy
-  $('btnResetA').addEventListener('click', ()=>{ $('hefeG').value=''; $('outA').style.display='none'; localStorage.removeItem('lm_hefeG');});
-  $('btnResetB').addEventListener('click', ()=>{ $('lmG').value=''; $('outB').style.display='none'; localStorage.removeItem('lm_lmG');});
-  $('btnCopyA').addEventListener('click', ()=>{ navigator.clipboard?.writeText($('outA').innerText.trim()); });
-  $('btnCopyB').addEventListener('click', ()=>{ navigator.clipboard?.writeText($('outB').innerText.trim()); });
-
-  // SW
+  // Service worker
   if('serviceWorker' in navigator){ window.addEventListener('load', ()=> navigator.serviceWorker.register('sw.js')); }
 })();
 </script>

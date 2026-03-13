@@ -1,7 +1,6 @@
 {
   "name": "LM ↔ Hefe Umrechner",
   "short_name": "LM-Umrechner",
-  "description": "Rezept-Umrechner: Hefe ↔ Lievito Madre (60% Hydration), Garzeit & Mehl/Wasser-Korrektur.",
   "start_url": "index.html",
   "scope": ".",
   "display": "standalone",
